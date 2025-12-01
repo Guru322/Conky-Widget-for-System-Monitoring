@@ -1,0 +1,90 @@
+-- vim: ts=4 sw=4 noet ai cindent syntax=lua
+
+conky.config = {
+	own_window_argb_visual = true,
+	own_window_argb_value = 50,
+	double_buffer = true,
+    -- CHANGED: alignment set to middle_right to center it vertically on the side
+    alignment = 'middle_right', 
+    background = false,
+    border_width = 1,
+    cpu_avg_samples = 2,
+	default_color = 'white',
+    default_outline_color = 'white',
+    default_shade_color = 'white',
+    draw_borders = false,
+    draw_graph_borders = true,
+    draw_outline = false,
+    draw_shades = false,
+    use_xft = true,
+    font = 'DejaVu Sans Mono:size=9',
+    -- gap_x is now distance from the right edge
+    gap_x = 20,
+    -- gap_y is now offset from the vertical center (0 = dead center)
+    gap_y = 0,
+    minimum_height = 5,
+	minimum_width = 5,
+    net_avg_samples = 2,
+    no_buffers = true,
+    out_to_console = false,
+    out_to_stderr = false,
+    extra_newline = false,
+    own_window = true,
+    own_window_class = 'Conky',
+    own_window_type = 'desktop',
+    stippled_borders = 0,
+    update_interval = 1.0,
+    uppercase = false,
+    use_spacer = 'none',
+    show_graph_scale = false,
+    show_graph_range = false
+}
+
+conky.text = [[
+${font}SYSTEM ${hr 1}
+
+${scroll 16 $nodename - $sysname $kernel on $machine | }
+${color white}Uptime:$color $uptime
+${color white}Freq:$color $freq_g GHz
+${color white}RAM:$color $mem/$memmax - $memperc% ${membar 4}
+${color white}Swap:$color $swap/$swapmax - $swapperc% ${swapbar 4}
+
+${font}CPU Info ${hr 1}
+
+CPU:${goto 140}Used${alignr}GHz
+Avg${goto 140}${if_match ${cpu cpu0}<10}  ${cpu cpu0}\
+${else}${if_match ${cpu cpu0}<100} ${cpu cpu0}\
+${else}${cpu cpu0}${endif}${endif}%${alignr}
+# Core 1
+Core1${goto 140}${if_match ${cpu cpu1}<10}  ${cpu cpu1}\
+${else}${if_match ${cpu cpu1}<100} ${cpu cpu1}\
+${else}${cpu cpu1}${endif}${endif}%${alignr}${freq_g 1}
+# Core 2
+Core2${goto 140}${if_match ${cpu cpu2}<10}  ${cpu cpu2}\
+${else}${if_match ${cpu cpu2}<100} ${cpu cpu2}\
+${else}${cpu cpu2}${endif}${endif}%${alignr}${freq_g 2}
+
+Temp (CPU)${goto 100}${execi 2 sensors | grep "Package id 0:" | awk '{print $4}'}
+Temp (HDD)${goto 100}${execi 60 sensors | grep -A 2 "drivetemp-scsi-0-0" | grep "temp1" | awk '{print $2}'}
+
+${color white}CPU Usage:$color $cpu% ${alignc}
+
+${color white}Procs:$color $processes  ${color white}Run:$color $running_processes
+
+${color white}File System ${hr 1}
+
+*Root $color${fs_used /}/${fs_size /} ${fs_bar 6 /}
+
+${color white}Network ${hr 1}
+#
+IP: ${addr enp2s0}
+
+Down:$color ${downspeed enp2s0} Up:$color ${upspeed enp2s0}
+
+${color white}Top Processes ${hr 1}
+
+${color white} Name              PID    CPU%   MEM%
+${color lightgrey} ${top name 1} ${top pid 1} ${top cpu 1} ${top mem 1}
+${color lightgrey} ${top name 2} ${top pid 2} ${top cpu 2} ${top mem 2}
+${color lightgrey} ${top name 3} ${top pid 3} ${top cpu 3} ${top mem 3}
+]]
