@@ -4,7 +4,6 @@ conky.config = {
 	own_window_argb_visual = true,
 	own_window_argb_value = 50,
 	double_buffer = true,
-    -- CHANGED: alignment set to middle_right to center it vertically on the side
     alignment = 'middle_right', 
     background = false,
     border_width = 1,
@@ -18,9 +17,7 @@ conky.config = {
     draw_shades = false,
     use_xft = true,
     font = 'DejaVu Sans Mono:size=9',
-    -- gap_x is now distance from the right edge
     gap_x = 20,
-    -- gap_y is now offset from the vertical center (0 = dead center)
     gap_y = 0,
     minimum_height = 5,
 	minimum_width = 5,
